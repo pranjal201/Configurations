@@ -9,10 +9,32 @@ endif
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'itchyny/lightline.vim'
-Plug 'joshdick/onedark.vim'
 Plug 'preservim/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
+Plug 'frazrepo/vim-rainbow'
+Plug 'altercation/vim-colors-solarized'
+Plug 'vim-syntastic/syntastic'
 call plug#end()
+
+" this is for rainbow
+let g:rainbow_active = 1
+
+" this is for solarized
+let g:solarized_termcolors=256
+
+"SYNTASTIC CONFIGURATION
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers = ['flake8']
+
+" this is for background
+set background=dark
 
 filetype plugin indent on
 syntax on
@@ -66,14 +88,13 @@ endfunction
 
 " color scheme
 syntax on
-colorscheme onedark
+colorscheme solarized
 filetype on
 filetype plugin indent on
 
 " lightline
 set noshowmode
-let g:lightline = { 'colorscheme': 'onedark' }
-
+let g:lightline = { 'colorscheme': 'solarized' }
 
 
 " file browser
