@@ -29,11 +29,22 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
-
-" this is for background
+let g:syntastic_open = 1
+map <leader>s :call SyntasticToggle()<CR>
+function SyntasticToggle()
+        SyntasticToggleMode
+    if g:syntastic_open == 1
+        let g:syntastic_open = 0
+        SyntasticCheck
+    else 
+        let g:syntastic_open = 1
+        SyntasticReset
+    endif
+endfunction
+" this is foour  background
 set background=dark
 
 filetype plugin indent on
