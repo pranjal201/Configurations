@@ -11,13 +11,12 @@ Plug 'tpope/vim-sensible'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'frazrepo/vim-rainbow'
 Plug 'altercation/vim-colors-solarized'
+Plug 'luochen1990/rainbow'
 Plug 'vim-syntastic/syntastic'
 call plug#end()
 
-" this is for rainbow
-let g:rainbow_active = 1
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 
 " this is for solarized
 let g:solarized_termcolors=256
@@ -33,17 +32,8 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_open = 1
-map <leader>s :call SyntasticToggle()<CR>
-function SyntasticToggle()
-        SyntasticToggleMode
-    if g:syntastic_open == 1
-        let g:syntastic_open = 0
-        SyntasticCheck
-    else 
-        let g:syntastic_open = 1
-        SyntasticReset
-    endif
-endfunction
+map <leader>s :SyntasticReset<CR>
+
 " this is foour  background
 set background=dark
 
@@ -85,7 +75,7 @@ set viminfo='25,\"50,n~/.viminfo
 set mouse=a
 let g:is_mouse_enabled = 1
 noremap <silent> <Leader>m :call ToggleMouse()<CR>
-function ToggleMouse()
+funct! ToggleMouse()
     if g:is_mouse_enabled == 1
         echo "Mouse OFF"
         set mouse=
@@ -95,7 +85,7 @@ function ToggleMouse()
         set mouse=a
         let g:is_mouse_enabled = 1
     endif
-endfunction
+endfunc
 
 " color scheme
 syntax on
@@ -113,7 +103,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let NERDTreeMinimalUI = 1
 let g:nerdtree_open = 0
 map <leader>n :call NERDTreeToggle()<CR>
-function NERDTreeToggle()
+funct! NERDTreeToggle()
     NERDTreeTabsToggle
     if g:nerdtree_open == 1
         let g:nerdtree_open = 0
@@ -121,15 +111,18 @@ function NERDTreeToggle()
         let g:nerdtree_open = 1
         wincmd p
     endif
-endfunction
+endfunc
 
-function! StartUp()
+funct! StartUp()
     if 0 == argc()
         NERDTree
     end
-endfunction
+endfunc
 autocmd VimEnter * call StartUp()
 
 
 inoremap jj <Esc> 
 nmap <Tab> <C-w>w
+imap { {}<Esc>i
+imap ( ()<Esc>i
+imap [ []<Esc>i
