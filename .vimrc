@@ -11,16 +11,16 @@ Plug 'tpope/vim-sensible'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'altercation/vim-colors-solarized'
 Plug 'luochen1990/rainbow'
 Plug 'vim-syntastic/syntastic'
+Plug 'codota/tabnine-vim'
 call plug#end()
 
-let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+let g:rainbow_active = 1
+"set to 0 if you want to enable it later via :RainbowToggle
 
-" this is for solarized
-let g:solarized_termcolors=256
-
+"tabnine repository path
+set rtp+=~/.vim/plugged/tabnine-vim
 "SYNTASTIC CONFIGURATION
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -60,16 +60,20 @@ set relativenumber
 set fileformat=unix
 set encoding=utf-8
 set fileencoding=utf-8
-
+set path+=**
+set wildmenu
 " sane editing
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-set colorcolumn=80
 set expandtab
 set viminfo='25,\"50,n~/.viminfo
 
-
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
 
 " mouse
 set mouse=a
@@ -89,13 +93,13 @@ endfunc
 
 " color scheme
 syntax on
-colorscheme solarized
+colorscheme dankneon 
 filetype on
 filetype plugin indent on
 
 " lightline
 set noshowmode
-let g:lightline = { 'colorscheme': 'solarized' }
+let g:lightline = { 'colorscheme': 'ayu_dark' }
 
 
 " file browser
@@ -105,7 +109,7 @@ let g:nerdtree_open = 0
 map <leader>n :call NERDTreeToggle()<CR>
 funct! NERDTreeToggle()
     NERDTreeTabsToggle
-    if g:nerdtree_open == 1
+   if g:nerdtree_open == 1
         let g:nerdtree_open = 0
     else
         let g:nerdtree_open = 1
@@ -116,6 +120,7 @@ endfunc
 funct! StartUp()
     if 0 == argc()
         NERDTree
+        
     end
 endfunc
 autocmd VimEnter * call StartUp()
@@ -126,3 +131,6 @@ nmap <Tab> <C-w>w
 imap { {}<Esc>i
 imap ( ()<Esc>i
 imap [ []<Esc>i
+noremap '' i#TabNine::sem<Esc>o
+
+
