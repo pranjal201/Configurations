@@ -2,7 +2,24 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+blk='\[\033[01;30m\]'   # Black
+red='\[\033[01;31m\]'   # Red
+grn='\[\033[01;32m\]'   # Green
+ylw='\[\033[01;33m\]'   # Yellow
+blu='\[\033[01;34m\]'   # Blue
+pur='\[\033[01;35m\]'   # Purple
+cyn='\[\033[01;36m\]'   # Cyan
+wht='\[\033[01;37m\]'   # White
+clr='\[\033[00m\]'      # Reset
 # If not running interactively, don't do anything
+
+function git_branch() {
+    if [ -d .git ] ; then
+        printf "%s" "($(git branch 2> /dev/null | awk '/\*/{print $2}'))";
+    fi
+}
+
+
 case $- in
     *i*) ;;
       *) return;;
@@ -29,13 +46,14 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
 
+function bash_prompt(){
+    PS1='${debian_chroot:+($debian_chroot)}'${blu}'$(git_branch)'${pur}' \W'${grn}' \$> '${grn}${clr}
+}
+
+bash_prompt
 # this allows to use vim command in terminal
 set -o vi
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -46,7 +64,8 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-force_color_prompt=yes
+color_prompt=yes
+#force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -58,22 +77,9 @@ if [ -n "$force_color_prompt" ]; then
 	color_prompt=
     fi
 fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -108,6 +114,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -118,3 +125,4 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
