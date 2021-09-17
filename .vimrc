@@ -3,6 +3,7 @@ let need_to_install_plugins = 0
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
     let need_to_install_plugins = 1
 endif
 
@@ -11,29 +12,31 @@ Plug 'tpope/vim-sensible'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'luochen1990/rainbow'
 Plug 'vim-syntastic/syntastic'
-Plug 'codota/tabnine-vim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'tabnine/YouCompleteMe'
+Plug 'sainnhe/sonokai'
 call plug#end()
+"
+"Important!!
+ if has('termguicolors')
+  set termguicolors
+ endif
+   " The configuration options should be
+let g:sonokai_style = 'maia'
 
-let g:rainbow_active = 1
-"set to 0 if you want to enable it later via :RainbowToggle
+let g:sonokai_diagnostic_text_highlight = 1 
+" This closes the extra buffer window in vim for function definition
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
-"tabnine repository path
-set rtp+=~/.vim/plugged/tabnine-vim
+
 "SYNTASTIC CONFIGURATION
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_open = 1
-map <leader>s :SyntasticReset<CR>
-
+nnoremap <leader>s :SyntasticReset<Enter>
+"
 " this is foour  background
 set background=dark
 
@@ -50,8 +53,6 @@ endif
 " always show the status bar
 set laststatus=2
 
-" enable 256 colors
-set t_Co=256
 
 " turn on line numbering
 set number
@@ -93,17 +94,17 @@ endfunc
 
 " color scheme
 syntax on
-colorscheme dankneon 
+colorscheme sonokai
 filetype on
 filetype plugin indent on
 
 " lightline
 set noshowmode
-let g:lightline = { 'colorscheme': 'ayu_dark' }
+let g:lightline = { 'colorscheme': 'default' }
+
 
 
 " file browser
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let NERDTreeMinimalUI = 1
 let g:nerdtree_open = 0
 map <leader>n :call NERDTreeToggle()<CR>
@@ -127,10 +128,11 @@ autocmd VimEnter * call StartUp()
 
 
 inoremap jj <Esc> 
-nmap <Tab> <C-w>w
 imap { {}<Esc>i
 imap ( ()<Esc>i
 imap [ []<Esc>i
-noremap '' i#TabNine::sem<Esc>o
 
-
+nmap <C-t> :tabnew<Enter>
+nmap <Tab> :tabnext<Enter>
+nmap <C-e> :tabclose<Enter>
+nmap <C-w> <C-w>w
