@@ -7,25 +7,30 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     let need_to_install_plugins = 1
 endif
 
+" This checks for the plugins "
+if need_to_install_plugins == 1
+    echo "Installing plugins..."
+    silent! PlugInstall
+    echo "Done!"
+    q
+endif
+
+
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'vim-syntastic/syntastic'
-Plug 'lifepillar/vim-solarized8'
 Plug 'tabnine/YouCompleteMe'
-Plug 'sainnhe/sonokai'
+Plug 'audibleblink/hackthebox.vim'
+Plug 'mhartington/oceanic-next'
 call plug#end()
 "
 "Important!!
- if has('termguicolors')
-  set termguicolors
- endif
    " The configuration options should be
-let g:sonokai_style = 'maia'
 
-let g:sonokai_diagnostic_text_highlight = 1 
+
 " This closes the extra buffer window in vim for function definition
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
@@ -37,27 +42,20 @@ set statusline+=%*
 let g:syntastic_python_checkers = ['flake8']
 nnoremap <leader>s :SyntasticReset<Enter>
 "
-" this is foour  background
+" this is fo  background
 set background=dark
-
 filetype plugin indent on
 syntax on
 
-if need_to_install_plugins == 1
-    echo "Installing plugins..."
-    silent! PlugInstall
-    echo "Done!"
-    q
-endif
-
 " always show the status bar
 set laststatus=2
-
+set textwidth=80
 
 " turn on line numbering
 set number
 set relativenumber
 " sane text files
+set wrap
 set fileformat=unix
 set encoding=utf-8
 set fileencoding=utf-8
@@ -70,11 +68,13 @@ set softtabstop=4
 set expandtab
 set viminfo='25,\"50,n~/.viminfo
 
-if exists('+termguicolors')
+"This is very useful for mainting color config while in tmux
+if exists("+termguicolors")
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     set termguicolors
 endif
+
 
 " mouse
 set mouse=a
@@ -94,14 +94,13 @@ endfunc
 
 " color scheme
 syntax on
-colorscheme sonokai
+colorscheme OceanicNext
 filetype on
 filetype plugin indent on
-
+"
 " lightline
 set noshowmode
-let g:lightline = { 'colorscheme': 'default' }
-
+let g:lightline = { 'colorscheme': 'solarized' }
 
 
 " file browser
@@ -128,11 +127,23 @@ autocmd VimEnter * call StartUp()
 
 
 inoremap jj <Esc> 
-imap { {}<Esc>i
-imap ( ()<Esc>i
-imap [ []<Esc>i
 
 nmap <C-t> :tabnew<Enter>
 nmap <Tab> :tabnext<Enter>
 nmap <C-e> :tabclose<Enter>
 nmap <C-w> <C-w>w
+inoremap { {}<left>
+inoremap {{ {
+inoremap {} {}
+inoremap [ []<left>
+inoremap [[ [
+inoremap [] []
+inoremap ( ()<left>
+inoremap (( (
+inoremap () ()
+inoremap " ""<left>
+inoremap "" ""
+inoremap ' ''<left>
+inoremap '' ''
+noremap j gj
+noremap k gk
