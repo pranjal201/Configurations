@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# ~/.bashrc: executed by bash(1) for non-logn shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -94,6 +94,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
 
 
 # some more ls aliases
@@ -125,4 +126,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
