@@ -1,0 +1,16 @@
+{
+    "workbench.colorTheme": "Sublime Material Theme - Dark",
+    "vim.leader": "<space>",
+    "vim.insertModeKeyBindings": [
+            {
+              "before": ["k", "j"],
+              "after": ["<Esc>"]
+            }
+    ],
+    "security.workspace.trust.untrustedFiles": "open",
+    "window.zoomLevel": 2,
+    "editor.fontFamily": "Code New Roman",
+    "workbench.activityBar.visible": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "diffEditor.ignoreTrimWhitespace": false,
+}
